@@ -7,10 +7,19 @@ import WinOrLoseCard from '../WinOrLoseCard'
 import './index.css'
 
 class EmojiGame extends Component {
-  state = {clickedEmojisList: [], isGameInProgress: true, topScore: 0}
+  state = {
+    clickedEmojisList: [],
+    isGameInProgress: true,
+    topScore: 0,
+    attempts: 0,
+  }
 
   resetGame = () => {
     this.setState({clickedEmojisList: [], isGameInProgress: true})
+
+    this.setState(prevState => ({
+      attempts: prevState.attempts + 1,
+    }))
   }
 
   renderScoreCard = () => {
@@ -79,15 +88,17 @@ class EmojiGame extends Component {
   }
 
   render() {
-    const {clickedEmojisList, isGameInProgress, topScore} = this.state
+    const {clickedEmojisList, isGameInProgress, topScore, attempts} = this.state
     return (
       <div className="app-container">
         <NavBar
           currentScore={clickedEmojisList.length}
           isGameInProgress={isGameInProgress}
           topScore={topScore}
+          attempts={attempts}
         />
         <div className="emoji-game-body">
+          <p className="score">No of Attempts: {attempts}</p>
           {isGameInProgress ? this.renderEmojisList() : this.renderScoreCard()}
         </div>
         <footer>
